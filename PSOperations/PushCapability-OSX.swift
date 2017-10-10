@@ -24,7 +24,7 @@ public struct Push: CapabilityType {
     
     private let types: NSApplication.RemoteNotificationType
     
-    public init(application: NSApplication, types: NSRemoteNotificationType) {
+    public init(application: NSApplication, types: NSApplication.RemoteNotificationType) {
         self.types = types
         if authorizer.application == nil {
             authorizer.application = application
