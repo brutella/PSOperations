@@ -427,10 +427,12 @@ class PSOperationsTests: XCTestCase {
             cancelHandler: { _ in
                 cancelExp.fulfill()
             },
-            produceHandler: { _, _ in
+            produceHandler: {
+                (_, _) in
                 produceExp.fulfill()
             },
-            finishHandler: { _, _ in
+            finishHandler: {
+                (_, _) in
                 finishExp.fulfill()
         }))
         
@@ -728,10 +730,12 @@ class PSOperationsTests: XCTestCase {
             startHandler: { _ in
                 exp1.fulfill()
             },
-            produceHandler: { _, _ in
+            produceHandler: {
+                (_, _) in
                 exp2.fulfill()
             },
-            finishHandler: { _, _ in
+            finishHandler: {
+                (_, _) in
                 exp3.fulfill()
             }
         )
