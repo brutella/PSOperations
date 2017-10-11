@@ -8,8 +8,6 @@ Shows how to lift operation-like objects in to the NSOperation world.
 
 import Foundation
 
-private var URLSessionTaskOperationKVOContext = 0
-
 /**
     `URLSessionTaskOperation` is an `Operation` that lifts an `NSURLSessionTask` 
     into an operation.
@@ -24,7 +22,7 @@ private var URLSessionTaskOperationKVOContext = 0
 open class URLSessionTaskOperation: Operation {
     let task: URLSessionTask
     
-    fileprivate var observerRemoved = false
+    fileprivate var taskStateObservation: NSKeyValueObservation?
     fileprivate let stateLock = NSLock()
     
     public init(task: URLSessionTask) {
@@ -39,34 +37,20 @@ open class URLSessionTaskOperation: Operation {
     
     override open func execute() {
         assert(task.state == .suspended, "Task was resumed by something other than \(self).")
-
-        task.addObserver(self, forKeyPath: "state", options: NSKeyValueObservingOptions(), context: &URLSessionTaskOperationKVOContext)
+        
+        taskStateObservation = task.observe(\.state) {
+            [weak self] (op, change) in
+            switch op.state {
+            case .completed:
+                self?.finish()
+                fallthrough
+            case .canceling:
+                self?.taskStateObservation = nil
+            default:
+                return
+            }
+        }
         
         task.resume()
     }
-    
-    
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard context == &URLSessionTaskOperationKVOContext else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-            return
-        }
-        guard let object = object else { return }
-        
-        stateLock.withCriticalScope {
-            if object as AnyObject === task && keyPath == "state" && !observerRemoved {
-                switch task.state {
-                case .completed:
-                    finish()
-                    fallthrough
-                case .canceling:
-                    observerRemoved = true
-                    task.removeObserver(self, forKeyPath: "state")
-                default:
-                    return
-                }
-            }
-        }
-    }
-    
 }

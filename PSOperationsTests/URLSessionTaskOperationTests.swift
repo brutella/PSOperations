@@ -75,10 +75,7 @@ class URLSessionTaskOperationTests: XCTestCase {
         let q = PSOperations.OperationQueue()
         q.addOperation(op)
         
-        keyValueObservingExpectation(for: op, keyPath: "isFinished") { _, _ in
-            return op.isFinished
-        }
-        
+        keyValueObservingExpectation(for: op, keyPath: #keyPath(URLSessionTaskOperation.isFinished), expectedValue: true)
         waitForExpectations(timeout: 5.0, handler: nil)
     }
     
