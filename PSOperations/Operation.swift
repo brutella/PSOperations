@@ -230,6 +230,9 @@ open class Operation: Foundation.Operation {
         } else {
             finish()
         }
+        else {
+            finish()
+        }
     }
     
     open override func start() {
