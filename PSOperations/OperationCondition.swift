@@ -78,11 +78,10 @@ func ==(lhs: OperationConditionResult, rhs: OperationConditionResult) -> Bool {
 // MARK: Evaluate Conditions
 
 struct OperationConditionEvaluator {
-    static func evaluate(_ conditions: [OperationCondition], operation: Operation, completion: @escaping ([NSError]) -> Void) {
-        // Check conditions.
+    static func evaluate(_ conditions: [OperationCondition], operation: Operation) -> [NSError] {
         let conditionGroup = DispatchGroup()
-
-        var results = [OperationConditionResult?](repeating: nil, count: conditions.count)
+        
+        var results = [OperationConditionResult](repeating: .satisfied, count: conditions.count)
         
         // Ask each condition to evaluate and store its result in the "results" array.
         for (index, condition) in conditions.enumerated() {
@@ -93,20 +92,7 @@ struct OperationConditionEvaluator {
             }
         }
         
-        // After all the conditions have evaluated, this block will execute.
-        conditionGroup.notify(queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.default)) {
-            // Aggregate the errors that occurred, in order.
-            var failures = results.compactMap { $0?.error }
-            
-            /*
-                If any of the conditions caused this operation to be cancelled, 
-                check for that.
-            */
-            if operation.isCancelled {
-                failures.append(NSError(code: .conditionFailed))
-            }
-            
-            completion(failures)
-        }
+        conditionGroup.wait()
+        return results.compactMap { $0.error }
     }
 }
