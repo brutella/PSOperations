@@ -142,7 +142,6 @@ open class Operation: Foundation.Operation {
     // MARK: Cancellation
     
     override open func cancel() {
-        print("CANCEL")
         // sets super.isCancelled to true
         super.cancel()
         
