@@ -52,7 +52,7 @@ open class BlockOperation: Operation {
      the designated initializer). The operation will be automatically ended
      after the `mainQueueBlock` is executed.
      */
-    @available(*, deprecated: 1.0, message: "This initializer breaks QOS, please use the main initializer. If you want to execute on the main thread you still can yourself within the closure. This initializer will be removed in a future version of PSOperations")
+    @available(*, deprecated, message: "This initializer breaks QOS, please use the main initializer. If you want to execute on the main thread you still can yourself within the closure. This initializer will be removed in a future version of PSOperations")
     public convenience init(mainQueueBlock: @escaping () -> Void) {
         self.init(block: { continuation in
             DispatchQueue.main.async {

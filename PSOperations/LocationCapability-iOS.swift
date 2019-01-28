@@ -38,6 +38,8 @@ public enum Location: CapabilityType {
                     // return .NotDetermined so that we can prompt to upgrade the permission
                     completion(.notDetermined)
                 }
+        @unknown default:
+            fatalError("Unknown status")
         }
     }
     
@@ -96,6 +98,8 @@ private class LocationAuthorizer: NSObject, CLLocationManagerDelegate {
                     completion(.notAvailable)
                 case .notDetermined:
                     fatalError("Unreachable due to the if statement, but included to keep clang happy")
+            @unknown default:
+                fatalError("Unknown status")
             }
         }
     }

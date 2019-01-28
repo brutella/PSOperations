@@ -21,6 +21,8 @@ extension DispatchQoS.QoSClass {
             self = .background
         case .default:
             self = .default
+        @unknown default:
+            fatalError("Unknown quality of service")
         }
     }
 }
