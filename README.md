@@ -1,33 +1,18 @@
 # PSOperations
 
-[![codebeat badge](https://codebeat.co/badges/5a8fa0e4-178b-499b-9947-98bf69013b7f)](https://codebeat.co/projects/github-com-pluralsight-psoperations) [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=5907e956138a4e0001f3fbaf&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/5907e956138a4e0001f3fbaf/build/latest?branch=master)
+This project is based on [pluralsight/PSOperations](https://github.com/pluralsight/PSOperations) with some differences.
 
-PSOperations is a framework that leverages the power of NSOperation and NSOperationQueue. It enables you to use operations more easily in all parts of your project.
-
-This is an adaptation of the sample code provided in the [Advanced NSOperations](https://developer.apple.com/videos/wwdc/2015/?id=226) session of WWDC 2015.
-
-
+- The main class `Operation` is much simpler (with less race conditions).
+- Supports push notification authorization for macOS.
 
 ## Support
 
- - Swift 4.x
+ - Swift 5.x
  - iOS 8.0
  - tvOS 9.0
- - watchOS (undefined deployment target)
- - macOS (undefined deployment target)
+ - watchOS 3.0
+ - macOS 10.11
  - Extension friendly
- - Tests only run against iOS 9 (latest) and tvOS 9 (latest)
-
-### Swift 3+
-Because Swift 3 removes the `NS` prefix on several Foundation types we've added a few typealiases for convenience. We investigated renaming the few classes that conflict but ran into radar://28917706 where frameworks will fallback to Foundation types if the framework doesn't contain the given type i.e. `UIKit.Data` is valid and really is `Foundation.Data`. If we were to rename `Operation` to `PSOperation` usuages of `PSOperations.Operation` would end up using `Foundation.Operation` and potentially break your code. 
-
-Here are the typealiases:
-```
-public typealias PSOperation = Operation
-public typealias PSOperationQueue = OperationQueue
-public typealias PSOperationQueueDelegate = OperationQueueDelegate
-public typealias PSBlockOperation = BlockOperation
-```
 
 ## Installation
 PSOperations supports multiple methods for installing the library in a project.
@@ -93,10 +78,27 @@ $ brew install carthage
 To integrate PSOperations into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "pluralsight/PSOperations"
+github "brutella/PSOperations"
 ```
 
 Run `carthage` to build the framework and drag the built `PSOperations.framework` into your Xcode project. Optionally you can add `PSOperationsHealth.framework`, `PSOperationsPassbook.framework` and `PSOperationsCalendar.framework`
+
+### XCFramework
+
+To build a xcframework for iOS (Device & Simulator) and Mac Catalyst, you have execute the following commands
+
+```shell
+# Device slice.
+xcodebuild archive -project 'PSOperations.xcodeproj' -scheme 'PSOperations' -configuration Release -destination 'generic/platform=iOS' -archivePath './PSOperations.framework-iphoneos.xcarchive' SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES 
+
+# Simulator slice.
+xcodebuild archive -project 'PSOperations.xcodeproj' -scheme 'PSOperations' -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath './PSOperations.framework-iphonesimulator.xcarchive' SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES 
+
+# Mac Catalyst slice.
+xcodebuild archive -project 'PSOperations.xcodeproj' -scheme 'PSOperations' -configuration Release -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' -archivePath './PSOperations.framework-catalyst.xcarchive' SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES SUPPORTS_MACCATALYST=YES
+
+xcodebuild -create-xcframework -framework './PSOperations.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/PSOperations.framework' -framework './PSOperations.framework-iphoneos.xcarchive/Products/Library/Frameworks/PSOperations.framework' -framework './PSOperations.framework-catalyst.xcarchive/Products/Library/Frameworks/PSOperations.framework' -output './PSOperations.xcframework'
+```
 
 ## Getting started
 
@@ -261,27 +263,3 @@ class OperationSegue: UIStoryboardSegue {
 }
 
 ```
-
-## Contribute
-
-
-Feel free to submit pull requests, as we are always looking for improvements from the community.
-
-## WWDC Differences
-
-Differences from the first version of the WWDC sample code:
-
- - Canceling operations would not work.
- - Canceling functions are slightly more friendly.
- - Negated Condition would not negate.
- - Unit tests!
-
-Differences from the second version of the WWDC sample code:
-
- - Sometimes canceling wouldn't work correctly in iOS 8.4. The finished override wasn't being called during cancel. We have fixed this to work in both iOS 8.4 and iOS 9.0.
- - Canceling functions are slightly more friendly.
- - Unit tests!
-
-A difference from the WWDC Sample code worth mentioning:
- 
- - When conditions are evaluated and they fail the associated operation is cancelled. The operation still goes through the same flow otherwise, only now it will be marked as cancelled.
