@@ -23,6 +23,9 @@ public enum CapabilityStatus {
     /// The capability has been requested and approved
     case authorized
     
+    /// The capability is limited
+    case limited
+    
     /// The capability has been requested but was denied by the user
     case denied
     
@@ -122,7 +125,7 @@ private extension CapabilityStatus {
     var error: NSError? {
         switch self {
             case .notDetermined: return NSError(capabilityErrorCode: .notDetermined)
-            case .authorized: return nil
+            case .authorized, .limited: return nil
             case .denied: return NSError(capabilityErrorCode: .denied)
             case .notAvailable: return NSError(capabilityErrorCode: .notAvailable)
             case .error(let e): return e

@@ -20,6 +20,7 @@ public struct Photos: CapabilityType {
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
             case .authorized: completion(.authorized)
+            case .limited: completion(.limited)
             case .denied: completion(.denied)
             case .restricted: completion(.notAvailable)
             case .notDetermined: completion(.notDetermined)
@@ -30,6 +31,7 @@ public struct Photos: CapabilityType {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
                 case .authorized: completion(.authorized)
+                case .limited: completion(.limited)
                 case .denied: completion(.denied)
                 case .restricted: completion(.notAvailable)
                 case .notDetermined: completion(.notDetermined)
