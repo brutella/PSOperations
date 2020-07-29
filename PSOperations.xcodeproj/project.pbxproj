@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		104F3B6924D15E6900863DE7 /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F3B6824D15E6900863DE7 /* NoFailedDependencies.swift */; };
 		1D2DE5F51F55D1EE0080FF4F /* QualityOfService+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DE5F41F55D1EE0080FF4F /* QualityOfService+.swift */; };
 		1D2DE6231F5600540080FF4F /* DispatchQueue+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DE6221F5600540080FF4F /* DispatchQueue+.swift */; };
 		1D57B1E51D919D38008333C7 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D57B1E41D919D38008333C7 /* Typealiases.swift */; };
@@ -105,6 +106,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		104F3B6824D15E6900863DE7 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
 		1D2DE5F41F55D1EE0080FF4F /* QualityOfService+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "QualityOfService+.swift"; sourceTree = "<group>"; };
 		1D2DE6221F5600540080FF4F /* DispatchQueue+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+.swift"; sourceTree = "<group>"; };
 		1D57B1E41D919D38008333C7 /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				1D9B43361B6A934A008F7F18 /* OperationCondition.swift */,
 				1D9B433B1B6A934A008F7F18 /* ReachabilityCondition.swift */,
 				1D9B43371B6A934A008F7F18 /* SilentCondition.swift */,
+				104F3B6824D15E6900863DE7 /* NoFailedDependencies.swift */,
 			);
 			name = Conditions;
 			sourceTree = "<group>";
@@ -741,6 +744,7 @@
 				55AE64CD1BC1738D0097F4A5 /* LocationCapability-iOS.swift in Sources */,
 				55AE64DA1BC1C7430097F4A5 /* PushCapability-iOS.swift in Sources */,
 				1D9B43571B6A934A008F7F18 /* NegatedCondition.swift in Sources */,
+				104F3B6924D15E6900863DE7 /* NoFailedDependencies.swift in Sources */,
 				1D9B434D1B6A934A008F7F18 /* GroupOperation.swift in Sources */,
 				1D9B43501B6A934A008F7F18 /* DelayOperation.swift in Sources */,
 				FDDAE4C7207019C100CF7B0D /* Atomic.swift in Sources */,
@@ -966,6 +970,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -993,6 +998,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
