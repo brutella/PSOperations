@@ -88,16 +88,7 @@ Run `carthage` to build the framework and drag the built `PSOperations.framework
 To build a xcframework for iOS (Device & Simulator) and Mac Catalyst, you have execute the following commands
 
 ```shell
-# Device slice.
-xcodebuild archive -project 'PSOperations.xcodeproj' -scheme 'PSOperations' -configuration Release -destination 'generic/platform=iOS' -archivePath './PSOperations.framework-iphoneos.xcarchive' SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES 
-
-# Simulator slice.
-xcodebuild archive -project 'PSOperations.xcodeproj' -scheme 'PSOperations' -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath './PSOperations.framework-iphonesimulator.xcarchive' SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES 
-
-# Mac Catalyst slice.
-xcodebuild archive -project 'PSOperations.xcodeproj' -scheme 'PSOperations' -configuration Release -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' -archivePath './PSOperations.framework-catalyst.xcarchive' SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES SUPPORTS_MACCATALYST=YES
-
-xcodebuild -create-xcframework -framework './PSOperations.framework-iphonesimulator.xcarchive/Products/Library/Frameworks/PSOperations.framework' -framework './PSOperations.framework-iphoneos.xcarchive/Products/Library/Frameworks/PSOperations.framework' -framework './PSOperations.framework-catalyst.xcarchive/Products/Library/Frameworks/PSOperations.framework' -output './PSOperations.xcframework'
+task xcframework
 ```
 
 ## Getting started
