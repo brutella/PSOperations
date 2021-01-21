@@ -20,10 +20,19 @@ public struct Photos: CapabilityType {
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
             case .authorized: completion(.authorized)
-            case .limited: completion(.limited)
             case .denied: completion(.denied)
             case .restricted: completion(.notAvailable)
             case .notDetermined: completion(.notDetermined)
+        default:
+            #if !targetEnvironment(macCatalyst)
+            if #available(iOS 14, *) {
+                switch status {
+                case .limited: completion(.limited)
+                default:
+                    break
+                }
+            }
+            #endif
         }
     }
     
@@ -31,10 +40,19 @@ public struct Photos: CapabilityType {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
                 case .authorized: completion(.authorized)
-                case .limited: completion(.limited)
                 case .denied: completion(.denied)
                 case .restricted: completion(.notAvailable)
                 case .notDetermined: completion(.notDetermined)
+                default:
+                    #if !targetEnvironment(macCatalyst)
+                    if #available(iOS 14, *) {
+                        switch status {
+                        case .limited: completion(.limited)
+                        default:
+                            break
+                        }
+                    }
+                    #endif
             }
         }
     }
