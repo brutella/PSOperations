@@ -12,7 +12,7 @@ vars:
     CONFIGURATION: "Release"
     SWIFT_VERSION: "5.3"
     BUILD_FOR_DISTRIBUTION: "YES"
-    SUPPORTS_MACCATALYST: "NO"
+    SUPPORTS_MAC_CATALYST: "NO"
 
 tasks:
     clean:
